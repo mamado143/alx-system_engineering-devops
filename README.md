@@ -1,2 +1,1 @@
-#!/bin/bash
-# alx-system_engineering-devops
+My readme on shell basics
