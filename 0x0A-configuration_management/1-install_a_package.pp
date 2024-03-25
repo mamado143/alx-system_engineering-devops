@@ -1,5 +1,5 @@
-# install 2.1.0 version of flask from pip
-package { 'flask':
-  ensure   => '2.1.0',
-  provider => 'pip',
+# Installs puppet-lint
+package { 'puppet-lint':
+  ensure   => '2.5.0',
+  provider => gem,
 }
