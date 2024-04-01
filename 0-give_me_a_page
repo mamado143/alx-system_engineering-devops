@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-#Fix my server
-sudo service2 start
