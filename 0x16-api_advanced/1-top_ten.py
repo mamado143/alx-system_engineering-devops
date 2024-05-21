@@ -1,50 +1,27 @@
 #!/usr/bin/python3
 """
-Script to print hot posts on a given Reddit subreddit.
+Function that queries the Reddit API and prints the titles
+of the first 10 hot posts listed for a given subreddit.
 """
 
 import requests
 
 
 def top_ten(subreddit):
-    """Print the titles of the 10 hottest posts on a given subreddit."""
+    """
+    Function that queries the Reddit API
+    - If not a valid subreddit, print None.
+    """
+    req = requests.get(
+        "https://www.reddit.com/r/{}/hot.json".format(subreddit),
+        headers={"User-Agent": "Custom"},
+        params={"limit": 10},
+    )
 
-    # Construct the URL for the subreddit's hot posts in JSON format
-    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
-
-    # Define headers for the HTTP request, including User-Agent
-    headers = {
-            "User-Agent": "linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)"
-            }
-
-    # Define parameters for the request, limiting the number of posts to 10
-    params = {
-            "limit": 10
-            }
-
-    # Send a GET request to the subreddit's hot posts page
-    response = requests.get(url, headers=headers, params=params,
-                            allow_redirects=False)
-
-    # Check if the response status code indicates a not-found error (404)
-    if response.status_code == 404:
-        print("None")
-        return
-    try:
-        data = response.json()
-    except ValueError:
-        print("Error: Unable to parse JSON response")
-        return
-    # Check if the response is valid JSON
-    try:
-        results = response.json()
-    except ValueError:
-        print("None")
-        return
-
-    # Extract the 'data' section
-    results = results.get("data")
-
-    # Print the titles of the top 10 hottest posts
-    for post in results.get("children"):
-        print(post.get("data").get("title"))
+    if req.status_code == 200:
+        for get_data in req.json().get("data").get("children"):
+            dat = get_data.get("data")
+            title = dat.get("title")
+            print(title)
+    else:
+        print(None)
