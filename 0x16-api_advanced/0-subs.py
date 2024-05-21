@@ -17,4 +17,4 @@ def number_of_subscribers(subreddit):
                 return data.get("subscribers", 0)
         except ValueError:
             return 0
-        return 0
+    return 0
