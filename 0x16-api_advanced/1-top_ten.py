@@ -30,7 +30,11 @@ def top_ten(subreddit):
     if response.status_code == 404:
         print("None")
         return
-
+    try:
+        data = response.json()
+    except ValueError:
+        print("Error: Unable to parse JSON response")
+        return
     # Check if the response is valid JSON
     try:
         results = response.json()
