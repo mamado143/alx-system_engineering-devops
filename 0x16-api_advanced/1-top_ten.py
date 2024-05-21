@@ -8,18 +8,19 @@ import requests
 
 def top_ten(subreddit):
     """Print the titles of the 10 hottest posts on a given subreddit."""
+
     # Construct the URL for the subreddit's hot posts in JSON format
-    url = "https://www.reddit.com/r/{}/hot/.json".format(subreddit)
+    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
 
     # Define headers for the HTTP request, including User-Agent
     headers = {
-        "User-Agent": "linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)"
-    }
+            "User-Agent": "linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)"
+            }
 
     # Define parameters for the request, limiting the number of posts to 10
     params = {
-        "limit": 10
-    }
+            "limit": 10
+            }
 
     # Send a GET request to the subreddit's hot posts page
     response = requests.get(url, headers=headers, params=params,
@@ -30,8 +31,16 @@ def top_ten(subreddit):
         print("None")
         return
 
-    # Parse the JSON response and extract the 'data' section
-    results = response.json().get("data")
+    # Check if the response is valid JSON
+    try:
+        results = response.json()
+    except ValueError:
+        print("None")
+        return
+
+    # Extract the 'data' section
+    results = results.get("data")
 
     # Print the titles of the top 10 hottest posts
-    [print(c.get("data").get("title")) for c in results.get("children")]
+    for post in results.get("children"):
+        print(post.get("data").get("title"))
